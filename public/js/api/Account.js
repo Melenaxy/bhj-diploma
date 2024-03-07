@@ -9,6 +9,19 @@ class Account extends Entity {
    * Получает информацию о счёте
    * */
   static get(id = '', callback){
-
+    createRequest({
+      url: `${this.URL}/${id}`,
+      method: 'GET ',
+      responseType: 'json',
+      data,
+      callback: (err, response) => {
+        if (response && response.success) {
+          console.log(response);
+        } else {
+          console.log(err);
+        }
+        callback(err, response);
+      }
+    });
   }
 }

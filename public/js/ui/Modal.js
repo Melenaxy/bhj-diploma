@@ -13,7 +13,7 @@ class Modal {
    * */
   constructor(element){
     if (!element) {
-      throw new Error('Элемент не существует!')
+      throw new Error('Элемент не найден!')
     } else {
       this.element = element;
     };
@@ -51,6 +51,6 @@ class Modal {
    * Закрывает окно: удаляет CSS-свойство display
    * */
   close(){
-    delete this.element.style.display;
+    this.element.style.display = 'none';
   }
 }

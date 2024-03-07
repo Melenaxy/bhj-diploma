@@ -10,11 +10,16 @@ const createRequest = (options = { url, data, method, callback }) => {
     if (options.method === 'GET') {
         for (let key in options.data) {
             url += `${key}=${options.data[key]}&`;
-            //`abc?prop=значение&login=вфыв&id=123`
         }
     } else {
-        for (let key in options.data) {
-            formData.append(key, options.data[key]);
+        if (options.data) {
+            let entries = options.data.entries();
+            for (let item of entries) {
+                formData.append(item[0], item[1]);
+            }
+            // for (let key in options.data) {
+            //     formData.append(key, options.data[key]);
+            // }
         }
     };
 
