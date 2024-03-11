@@ -52,10 +52,13 @@ class Sidebar {
     let logoutBtn = document.querySelector('.menu-item_logout');
     logoutBtn.addEventListener('click', (e) => {
       e.preventDefault();
-      User.logout();
-      if (response.success === true) {
-        App.setState('init');
-      }
+      User.logout((err, response) => {
+        if (response.success === true) {
+          App.setState('init');
+        } else {
+          alert(response.error);
+        }
+      })
     });
 
 
