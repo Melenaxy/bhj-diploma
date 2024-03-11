@@ -5,21 +5,23 @@
 const createRequest = (options = { url, data, method, callback }) => {
     let xhr = new XMLHttpRequest();
     xhr.responseType = 'json';
-    let url = `${options.url}?`;
+    let url = options.url;
     let formData = new FormData();
     if (options.method === 'GET') {
+        url = `${options.url}?`
         for (let key in options.data) {
             url += `${key}=${options.data[key]}&`;
         }
     } else {
-        if (options.data) {
+        if (options.data instanceof FormData) {
             let entries = options.data.entries();
             for (let item of entries) {
                 formData.append(item[0], item[1]);
             }
-            // for (let key in options.data) {
-            //     formData.append(key, options.data[key]);
-            // }
+        } else {
+            for (let key in options.data) {
+                formData.append(key, options.data[key]);
+            }
         }
     };
 
@@ -29,6 +31,6 @@ const createRequest = (options = { url, data, method, callback }) => {
         xhr.addEventListener('load', (e) => options.callback(null, xhr.response));
     }
     catch (err) {
-        options.callback(err);
+        console.log(err);
     };
 };
