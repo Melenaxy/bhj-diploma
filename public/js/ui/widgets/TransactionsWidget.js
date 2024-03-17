@@ -26,6 +26,14 @@ class TransactionsWidget {
    * экземпляра окна
    * */
   registerEvents() {
+    this.element.addEventListener('click', (e) => {
+      if (e.target.closest('.create-income-button')) {
+        App.getModal('newIncome').open();
+      };
 
+      if (e.target.closest('.create-expense-button')) {
+        App.getModal('newExpense').open();
+      };
+    })
   }
 }

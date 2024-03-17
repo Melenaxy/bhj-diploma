@@ -11,11 +11,10 @@ class LoginForm extends AsyncForm {
    * */
   onSubmit(data) {
     User.login(data, (err, response) => {
-      if (response.success === true) {
+      if (response?.success === true) {
         App.setState('user-logged');
-        let loginModal = App.getModal('login');
-        document.getElementById("register-form").reset();
-        loginModal.close();  
+        document.getElementById('login-form').reset();
+        App.getModal('login').close();  
       } else {
         alert(response.error)
       }

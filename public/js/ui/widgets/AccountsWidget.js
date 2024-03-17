@@ -32,12 +32,12 @@ class AccountsWidget {
    * */
   registerEvents() {
     this.element.addEventListener('click', (e) => {
+      if (e.target.closest('.create-account')) {
+        App.getModal('createAccount').open();
+      };
+
       if (e.target.closest('.account')) {
         this.onSelectAccount(e.target.closest('.account'));
-      };
-      
-      if (e.target.closest('.pull-right')) {
-        App.getModal('createAccount').open();
       };
     })
   }
@@ -67,7 +67,7 @@ class AccountsWidget {
             this.renderItem(item);
           }
         } else {
-          alert(response.error)
+          console.log(response.error)
         }
       });
     }
@@ -113,7 +113,7 @@ class AccountsWidget {
         <span>${item.name}</span> /
         <span>${item.sum} ₽</span>
       </a>
-    </li>`
+    </li>`;
   }
 
   /**

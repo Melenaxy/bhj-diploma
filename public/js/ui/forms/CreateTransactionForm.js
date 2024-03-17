@@ -8,7 +8,8 @@ class CreateTransactionForm extends AsyncForm {
    * метод renderAccountsList
    * */
   constructor(element) {
-    super(element)
+    super(element);
+    this.renderAccountsList();
   }
 
   /**
@@ -16,7 +17,36 @@ class CreateTransactionForm extends AsyncForm {
    * Обновляет в форме всплывающего окна выпадающий список
    * */
   renderAccountsList() {
+    if (User.current()) {
+      let currentUser = JSON.parse(User.current());
+      let data = {
+        mail: currentUser.email,
+        password: currentUser.password,
+      };
+      Account.list(data, (err, response) => {
+        let incomeSelect = document.getElementById('income-accounts-list');
+        incomeSelect.innerHTML = "";
+        let expenseSelect = document.getElementById('expense-accounts-list');
+        expenseSelect.innerHTML = "";
 
+        if (response.success === true) {
+          for (let item of response.data) {
+            let option = document.createElement('option');
+            option.setAttribute('value', item.id);
+            option.text = item.name;
+            incomeSelect.append(option);
+          }
+          for (let item of response.data) {
+            let option = document.createElement('option');
+            option.setAttribute('value', item.id);
+            option.text = item.name;
+            expenseSelect.append(option);
+          }
+        } else {
+          console.log(response.error);
+        }
+      })
+    }
   }
 
   /**
@@ -26,6 +56,22 @@ class CreateTransactionForm extends AsyncForm {
    * в котором находится форма
    * */
   onSubmit(data) {
-
+    Transaction.create(data, (err, response) => {
+      if (response?.success === true) {
+        App.update();
+        let createIncome = App.getModal('newIncome')
+        if (createIncome) {
+          document.getElementById('new-income-form').reset();
+          createIncome.close();
+        };
+        let createExpense = App.getModal('newExpense')
+        if (createExpense) {
+          document.getElementById('new-expense-form').reset();
+          createExpense.close();
+        };
+      } else {
+        alert(response.error)
+      }
+    })
   }
 }
