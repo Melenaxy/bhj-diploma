@@ -14,9 +14,7 @@ class Entity {
       url: this.URL,
       method: 'GET',
       data: data,
-      callback: (err, response) => {
-        callback(err, response);
-      }
+      callback: callback
     })
   }
 
@@ -30,9 +28,7 @@ class Entity {
       url: this.URL,
       method: 'PUT',
       data: data,
-      callback: (err, response) => {
-        callback(err, response);
-      }
+      callback: callback
     })
   }
 
@@ -45,9 +41,7 @@ class Entity {
       url: this.URL,
       method: 'DELETE',
       data: data,
-      callback: (err, response) => {
-        callback(err, response);
-      }
+      callback: callback
     })
   }
 }

@@ -18,10 +18,9 @@ class CreateTransactionForm extends AsyncForm {
    * */
   renderAccountsList() {
     if (User.current()) {
-      let currentUser = JSON.parse(User.current());
       let data = {
-        mail: currentUser.email,
-        password: currentUser.password,
+        mail: User.current().email,
+        password: User.current().password,
       };
       Account.list(data, (err, response) => {
         let incomeSelect = document.getElementById('income-accounts-list');

@@ -16,9 +16,8 @@ class AccountsWidget {
   constructor(element) {
     if (!element) {
       throw new Error('Элемент не найден!')
-    } else {
-      this.element = element;
     };
+    this.element = element;
     this.registerEvents();
     this.update();
   }
@@ -54,11 +53,9 @@ class AccountsWidget {
    * */
   update() {
     if (User.current()) {
-      let currentUser = JSON.parse(User.current());
-
       let data = {
-        mail: currentUser.email,
-        password: currentUser.password,
+        mail: User.current().email,
+        password: User.current().password,
       };
       Account.list(data, (err, response) => {
         if (response.success === true) {

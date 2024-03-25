@@ -14,9 +14,8 @@ class UserWidget {
   constructor(element){
     if (!element) {
       throw new Error('Элемент не найден!')
-    } else {
-      this.element = element;
     };
+    this.element = element;
   }
 
   /**
@@ -27,9 +26,8 @@ class UserWidget {
    * авторизованного пользователя
    * */
   update(){    
-    let currentUser = User.current();
-    if (currentUser) {
-      let name = JSON.parse(currentUser).name;
+    if (User.current()) {
+      let name = User.current().name;
       document.querySelector('.user-name').textContent = name;
     }
   }
