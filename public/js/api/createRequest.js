@@ -13,24 +13,16 @@ const createRequest = (options = { url, data, method, callback }) => {
             url += `${key}=${options.data[key]}&`;
         }
     } else {
-        if (options.data instanceof FormData) {
-            let entries = options.data.entries();
-            for (let item of entries) {
-                formData.append(item[0], item[1]);
-            }
-        } else {
-            for (let key in options.data) {
-                formData.append(key, options.data[key]);
-            }
+        for (let key in options.data) {
+            formData.append(key, options.data[key]);
         }
     };
-
     try {
         xhr.open(options.method, url);
         xhr.send(formData);
-        xhr.addEventListener('load', (e) => options.callback(null, xhr.response));
     }
     catch (err) {
         console.log(err);
     };
+    xhr.addEventListener('load', (e) => options.callback(null, xhr.response));
 };

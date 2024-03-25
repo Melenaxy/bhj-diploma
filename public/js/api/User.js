@@ -38,7 +38,7 @@ class User {
       url: this.URL + '/current',
       method: 'GET',
       callback: (err, response) => {
-        if (response && response.success) {
+        if (response?.success) {
           this.setCurrent(response.user);
         } else {
           this.unsetCurrent();
@@ -97,7 +97,7 @@ class User {
       url: this.URL + '/logout',
       method: 'POST',
       callback: (err, response) => {
-        if (response && response.success) {
+        if (response?.success) {
           this.unsetCurrent();
         }
         callback(err, response);

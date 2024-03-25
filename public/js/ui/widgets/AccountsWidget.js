@@ -58,7 +58,7 @@ class AccountsWidget {
         password: User.current().password,
       };
       Account.list(data, (err, response) => {
-        if (response.success === true) {
+        if (response?.success) {
           this.clear();
           for (let item of response.data) {
             this.renderItem(item);

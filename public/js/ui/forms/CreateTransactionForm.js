@@ -23,29 +23,24 @@ class CreateTransactionForm extends AsyncForm {
         password: User.current().password,
       };
       Account.list(data, (err, response) => {
-        let incomeSelect = document.getElementById('income-accounts-list');
-        incomeSelect.innerHTML = "";
-        let expenseSelect = document.getElementById('expense-accounts-list');
-        expenseSelect.innerHTML = "";
-
-        if (response.success === true) {
-          for (let item of response.data) {
-            let option = document.createElement('option');
-            option.setAttribute('value', item.id);
-            option.text = item.name;
-            incomeSelect.append(option);
-          }
-          for (let item of response.data) {
-            let option = document.createElement('option');
-            option.setAttribute('value', item.id);
-            option.text = item.name;
-            expenseSelect.append(option);
-          }
+        if (response?.success) {
+          if (this.element.id == 'new-income-form') {
+            let incomeSelect = this.element.querySelector('#income-accounts-list');
+            incomeSelect.innerHTML = response.data.reduce((acc, current) => {
+              return acc += `<option value="${current.id}">${current.name}</option>`;
+            }, '');
+          };
+          if (this.element.id == 'new-expense-form') {
+            let expenseSelect = this.element.querySelector('#expense-accounts-list');
+            expenseSelect.innerHTML = response.data.reduce((acc, current) => {
+              return acc += `<option value="${current.id}">${current.name}</option>`;
+            }, '');
+          };
         } else {
           console.log(response.error);
         }
       })
-    }
+    } 
   }
 
   /**
@@ -56,17 +51,16 @@ class CreateTransactionForm extends AsyncForm {
    * */
   onSubmit(data) {
     Transaction.create(data, (err, response) => {
-      if (response?.success === true) {
-        App.update();
-        let createIncome = App.getModal('newIncome')
-        if (createIncome) {
-          document.getElementById('new-income-form').reset();
-          createIncome.close();
+      if (response?.success) {
+        if (this.element.id == 'new-income-form') {
+          App.update();
+          this.element.reset();
+          App.getModal('newIncome').close();
         };
-        let createExpense = App.getModal('newExpense')
-        if (createExpense) {
-          document.getElementById('new-expense-form').reset();
-          createExpense.close();
+        if (this.element.id == 'new-expense-form') {
+          App.update();
+          this.element.reset();
+          App.getModal('newExpense').close();
         };
       } else {
         alert(response.error)
